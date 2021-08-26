@@ -10,17 +10,18 @@ const app = express();
 
 app.use(cors());
 
+// Lectura y parseo del body.
+app.use( express.json() );
+
 // base de datos
 dbConnection()
 
+app.use('/api/usuarios', require('./routes/usuarios'))
+app.use('/api/login', require('./routes/auth'))
+
 // mean_user
 // 7EhK4ZxZE1DdmTum
-app.get('/', (req, res) => {
-    res.json({
-        ok: true,
-        msg: 'Hola mundo'
-    });
-})
+
 
 app.listen(process.env.PORT, () => {
     console.log('Servidor corriendo en el: ' + process.env.PORT);
