@@ -1,28 +1,34 @@
-const express = require('express');
-const cors = require('cors')
-
 require('dotenv').config();
+
+const express = require('express');
+const cors = require('cors');
 
 const { dbConnection } = require('./database/config');
 
-// Crear el servidor
+// Crear el servidor de express
 const app = express();
 
-app.use(cors());
+// Configurar CORS
+app.use( cors() );
 
-// Lectura y parseo del body.
+// Lectura y parseo del body
 app.use( express.json() );
 
-// base de datos
-dbConnection()
-
-app.use('/api/usuarios', require('./routes/usuarios'))
-app.use('/api/login', require('./routes/auth'))
-
-// mean_user
-// 7EhK4ZxZE1DdmTum
+// Base de datos
+dbConnection();
 
 
-app.listen(process.env.PORT, () => {
-    console.log('Servidor corriendo en el: ' + process.env.PORT);
-})
+// Rutas
+app.use( '/api/usuarios', require('./routes/usuarios') );
+app.use( '/api/hospitales', require('./routes/hospitales') );
+app.use( '/api/medicos', require('./routes/medicos') );
+app.use( '/api/todo', require('./routes/busquedas') );
+app.use( '/api/login', require('./routes/auth') );
+app.use( '/api/upload', require('./routes/uploads') );
+
+
+
+app.listen( process.env.PORT, () => {
+    console.log('Servidor corriendo en puerto ' + process.env.PORT );
+});
+
